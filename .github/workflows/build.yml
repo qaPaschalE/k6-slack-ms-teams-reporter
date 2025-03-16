@@ -1,12 +1,9 @@
-name: Build and Test
+name: Build K6 Slack & Teams Reporter
 
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 defaults:
   run:
@@ -15,6 +12,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
@@ -27,13 +25,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: k6-slack-ms-teams-reporter/package-lock.json
 
-      - name: 📦 Install Dependencies
+      - name: 📥 Install Dependencies
         run: npm install
 
-      - name: 🏗 Build Package
+      - name: 🛠 Build Package
         run: npm run build
 
       - name: ✅ Run Unit Tests
@@ -41,7 +37,8 @@ jobs:
 
       - name: 📤 Upload Build Artifacts
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: k6-slack-ms-teams-reporter
-          path: k6-slack-ms-teams-reporter/dist
+          path: |
+            k6-slack-ms-teams-reporter/dist
+            k6-slack-ms-teams-reporter/reports
