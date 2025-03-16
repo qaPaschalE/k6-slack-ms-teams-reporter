@@ -3,16 +3,23 @@
   "version": "1.0.0",
   "description": "A K6 test results reporter that sends HTML reports as attachments to Slack and Microsoft Teams",
   "main": "src/index.js",
-  "scripts": {
-    "test": "mocha test/*.test.js",
-    "start": "node src/index.js"
+  "bin": {
+    "k6-slack-ms-teams-reporter": "./src/index.js"
   },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "mocha test --recursive --exit",
+    "slack-run": "node src/index.js --target slack --report reports/k6TestResults.json",
+    "teams-run": "node src/index.js --target teams --report reports/k6TestResults.json"
+  },
+  "type": "module",
   "dependencies": {
     "axios": "^1.8.3",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
     "chai": "^4.5.0",
+    "chalk": "^5.4.1",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.9",
     "sinon": "^15.2.0"
