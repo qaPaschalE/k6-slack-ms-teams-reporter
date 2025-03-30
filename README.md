@@ -1,14 +1,14 @@
-### **📖 @paschal_cheps/k6-slack-ms-teams-reporter**
+### **📖 k6-slack-ms-teams-reporter**
 
-<table align="center"><tr><td align="center" width="9999">
- <img src="https://github.com/qaPaschalE/cypress-plugins/blob/main/assets/paschal%20logo%20(2).png?raw=true" alt="paschal Logo" style="margin-top:25px;" align="center"/>
+<table align="center"><tr><td align="center">
+<img src="https://github.com/qaPaschalE/cypress-plugins/blob/main/assets/paschal%20logo%20(2).png?raw=true" alt="paschal Logo" style="max-width:120px;  margin-top:15px;"/>
 </td></tr></table>
 
-[![npm version](https://img.shields.io/npm/v/@paschal_cheps/k6-slack-ms-teams-reporter)](https://www.npmjs.com/package/@paschal_cheps/k6-slack-ms-teams-reporter)  
-[![license](https://img.shields.io/npm/l/@paschal_cheps/k6-slack-ms-teams-reporter)](https://github.com/qaPaschalE/@paschal_cheps/k6-slack-ms-teams-reporter/blob/main/LICENSE)  
-[![npm downloads](https://img.shields.io/npm/dt/@paschal_cheps/k6-slack-ms-teams-reporter)](https://www.npmjs.com/package/@paschal_cheps/k6-slack-ms-teams-reporter)  
-[![Build Status](https://github.com/qaPaschalE/actions/workflows/build.yml/badge.svg)](https://github.com/qaPaschalE/actions/workflows/build.yml)  
-[![downloads all time](https://img.shields.io/npm/dt/@paschal_cheps/k6-slack-ms-teams-reporter.svg?style=flat&color=black&label=lifetime%20downloads)](https://www.npmjs.com/package/@paschal_cheps/k6-slack-ms-teams-reporter)
+[![npm version](https://img.shields.io/npm/v/k6-slack-ms-teams-reporter)](https://www.npmjs.com/package/k6-slack-ms-teams-reporter)  
+[![license](https://img.shields.io/npm/l/k6-slack-ms-teams-reporter)](https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/LICENSE)  
+[![npm downloads](https://img.shields.io/npm/dt/k6-slack-ms-teams-reporter)](https://www.npmjs.com/package/k6-slack-ms-teams-reporter)  
+[![Build Status](https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/actions/workflows/build.yml/badge.svg)](https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/actions/workflows/build.yml)  
+[![downloads all time](https://img.shields.io/npm/dt/k6-slack-ms-teams-reporter.svg?style=flat&color=black&label=lifetime%20downloads)](https://www.npmjs.com/package/k6-slack-ms-teams-reporter)
 
 🚀 A lightweight reporting tool that sends **K6 Load Test Reports** to **Slack** & **Microsoft Teams**.
 
@@ -141,15 +141,11 @@ The reporter will automatically pick up configurations from `reportConfig.json` 
 
 ### **📌 Slack Report**
 
-<table align="right"><tr><td align="right" width="9999">
- <img src="assets/slack.png" alt="slack example" style="margin-top:25px;" align="right"/>
-</td></tr></table>
+<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/Slack.png?raw=true" alt="teams example" style="max-width:400px;  margin-top:20px;"/>
 
 ### **📌 Microsoft Teams Report**
 
-<table align="right"><tr><td align="right" width="9999">
- <img src="assets/teams.jpeg" alt="teams example" style="margin-top:25px;" align="right"/>
-</td></tr></table>
+<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/teams.jpeg?raw=true" alt="teams example" style="max-width:400px;  margin-top:20px;"/>
 
 ## **📌 CI/CD Integration**
 
