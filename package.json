@@ -1,0 +1,39 @@
+{
+  "name": "k6-slack-ms-teams-reporter",
+  "version": "1.0.0",
+  "description": "A K6 test results reporter that sends HTML reports as attachments to Slack and Microsoft Teams",
+  "main": "src/index.js",
+  "bin": {
+    "k6-slack-ms-teams-reporter": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "slack-run": "node src/index.js --target slack --report reports/k6TestResults.json",
+    "teams-run": "node src/index.js --target teams --report reports/k6TestResults.json"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "axios": "^1.8.4",
+    "chai": "^4.5.0",
+    "chalk": "^5.4.1",
+    "dotenv": "^16.4.7",
+    "jest": "^29.7.0",
+    "jest-mock": "^29.7.0",
+    "mocha": "^10.8.2",
+    "nodemon": "^3.1.9",
+    "sinon": "^15.2.0"
+  },
+  "keywords": [
+    "k6",
+    "slack",
+    "teams",
+    "reporter",
+    "test-results",
+    "paschal_cheps",
+    "qaPaschalE"
+  ],
+  "author": "Chetachi Paschal Enyimiri <paschal.enyimiri@gmail.com>",
+  "license": "MIT"
+}
