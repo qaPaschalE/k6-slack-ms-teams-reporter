@@ -1,7 +1,7 @@
 ### **📖 @paschal_cheps/k6-slack-ms-teams-reporter**
 
 <table align="center"><tr><td align="center" width="9999">
- <img src="https://github.com/qaPaschalE/blob/main/assets/paschal%20logo%20(2).png?raw=true" alt="paschal Logo" style="margin-top:25px;" align="center"/>
+ <img src="https://github.com/qaPaschalE/cypress-plugins/blob/main/assets/paschal%20logo%20(2).png?raw=true" alt="paschal Logo" style="margin-top:25px;" align="center"/>
 </td></tr></table>
 
 [![npm version](https://img.shields.io/npm/v/@paschal_cheps/k6-slack-ms-teams-reporter)](https://www.npmjs.com/package/@paschal_cheps/k6-slack-ms-teams-reporter)  

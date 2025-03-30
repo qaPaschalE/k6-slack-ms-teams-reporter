@@ -1,9 +1,0 @@
-{
-  "reporter": "k6-slack-ms-teams-reporter",
-  "target": "slack",
-  "reportName": "k6TestResults",
-  "verbose": true,
-  "jsonReportPath": "examples/reports/k6TestResults.json",
-  "htmlReportUrl": "examples/reports/k6TestResults.html",
-  "ciPipelineUrl": "https://gitlab.com/myproject/-/jobs/"
-}

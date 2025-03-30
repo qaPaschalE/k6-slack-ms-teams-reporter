@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import chalk from "chalk";
 import dotenv from "dotenv";
 import fs from "fs";
@@ -9,18 +11,33 @@ import reportOptions from "./reportOptions.js";
 // Load environment variables
 dotenv.config();
 
-// Load reporter config (if exists)
+// Load reporter config (supporting both `.json` and `.js`)
 let config = {};
-const configPath = "reportConfig.json";
+const configJsonPath = "reportConfig.json";
+const configJsPath = path.resolve(process.cwd(), "reportConfig.js");
 
-if (fs.existsSync(configPath)) {
+if (fs.existsSync(configJsPath)) {
   try {
-    config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-    console.log(chalk.greenBright(`🛠 Loaded config from ${configPath}`));
+    console.log(chalk.greenBright(`🛠 Loaded config from reportConfig.js`));
+    config = (await import(configJsPath)).default;
   } catch (err) {
-    console.error(chalk.red(`❌ Error reading ${configPath}: ${err.message}`));
+    console.error(
+      chalk.red(`❌ Error reading reportConfig.js: ${err.message}`)
+    );
     process.exit(1);
   }
+} else if (fs.existsSync(configJsonPath)) {
+  try {
+    console.log(chalk.greenBright(`🛠 Loaded config from ${configJsonPath}`));
+    config = JSON.parse(fs.readFileSync(configJsonPath, "utf8"));
+  } catch (err) {
+    console.error(
+      chalk.red(`❌ Error reading ${configJsonPath}: ${err.message}`)
+    );
+    process.exit(1);
+  }
+} else {
+  console.log(chalk.yellow("⚠ No config file found. Using default settings."));
 }
 
 // Parse command-line arguments
