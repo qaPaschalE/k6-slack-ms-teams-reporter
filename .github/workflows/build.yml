@@ -25,6 +25,11 @@ jobs:
       - name: 📥 Install Dependencies
         run: npm install
 
+      - name: 🗑️ Delete Existing Artifact (If Exists)
+        run: gh api -X DELETE "/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 📤 Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
