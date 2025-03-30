@@ -14,27 +14,31 @@ export function sendSlackMessage(payload) {
     process.exit(1);
   }
 
-  // 📝 Slack Payload using your WORKING format
   const slackPayload = {
-    text: "📊 *K6 Load Test Results*", // Fallback text
+    pretext: "*🚀 K6 Load Test Summary*",
+    thumb_url:
+      "https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/k6%20logo.png?raw=true", // K6 logo
     attachments: [
       {
         color: payload.color,
         fields: [
           { title: "Status", value: payload.status, short: true },
           { title: "Failure Rate", value: payload.failureRate, short: true },
-          {
-            title: "Total Requests",
-            value: payload.totalRequests,
-            short: true,
-          },
+          { title: "Iterations", value: payload.iterations, short: true },
           {
             title: "Failed Requests",
             value: payload.failedRequests,
             short: true,
           },
-          { title: "Iterations", value: payload.iterations, short: true },
-          { title: "Max VUs", value: payload.vus, short: true },
+          { title: "Passed Checks", value: payload.passedChecks, short: true },
+          { title: "Failed Checks", value: payload.failedChecks, short: true },
+          { title: "Min VUs", value: payload.minVUs, short: true },
+          { title: "Max VUs", value: payload.maxVUs, short: true },
+          {
+            title: "95th Percentile",
+            value: payload.p95ResponseTime,
+            short: true,
+          },
           {
             title: "Threshold Breaches",
             value:
@@ -57,7 +61,6 @@ export function sendSlackMessage(payload) {
     ],
   };
 
-  // ✅ Debugging: Log the payload before sending
   if (process.argv.includes("--verbose")) {
     console.log(
       chalk.blue("📤 Sending Slack payload:"),

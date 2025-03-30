@@ -119,11 +119,20 @@ const results = JSON.parse(fs.readFileSync(options.jsonReportPath, "utf8"));
 
 // Extract key metrics
 const totalRequests = results.metrics.http_reqs?.values.count || 0;
-const failedRequests = results.metrics.http_req_failed?.values.fails || 0;
+const failedRequests = results.metrics.http_req_failed?.values.passes || 0; // Fixed Failed Requests Calculation
+const passedRequests = totalRequests - failedRequests; // Dynamically calculated Passed Requests
 const failureRate = results.metrics.http_req_failed?.values.rate || 0;
 const iterations = results.metrics.iterations?.values.count || 0;
 const vus = results.metrics.vus_max?.values.max || 0;
-
+const maxVUs = results.metrics.vus?.values.max || 0;
+const minVUs = results.metrics.vus?.values.min || 0;
+const passedChecks = results.metrics.checks?.values.passes || 0;
+const failedChecks = results.metrics.checks?.values.fails || 0;
+// Extract Response Time Metrics
+const minResponseTime = results.metrics.http_req_duration?.values.min || 0;
+const maxResponseTime = results.metrics.http_req_duration?.values.max || 0;
+const avgResponseTime = results.metrics.http_req_duration?.values.avg || 0;
+const p95ResponseTime = results.metrics.http_req_duration?.values["p(95)"] || 0; // Added 95th Percentile Response Time
 // Extract threshold breaches
 const thresholds = results.metrics.http_req_duration?.thresholds || {};
 const breachedThresholds = Object.entries(thresholds)
@@ -139,12 +148,23 @@ const color = status === "❌ Failed" ? "#FF0000" : "#36a64f";
 // Log extracted metrics
 if (options.verbose) {
   console.log(chalk.blueBright(`📊 Total Requests: ${totalRequests}`));
+  console.log(chalk.greenBright(`✅ Passed Requests: ${passedRequests}`));
   console.log(chalk.redBright(`❌ Failed Requests: ${failedRequests}`));
   console.log(
     chalk.magentaBright(`📉 Failure Rate: ${(failureRate * 100).toFixed(2)}%`)
   );
   console.log(chalk.yellowBright(`🔄 Iterations: ${iterations}`));
   console.log(chalk.greenBright(`👥 Max VUs: ${vus}`));
+  console.log(chalk.cyanBright(`⏳ Min Response Time: ${minResponseTime} ms`));
+  console.log(chalk.cyanBright(`⏳ Max Response Time: ${maxResponseTime} ms`));
+  console.log(
+    chalk.cyanBright(`⏳ Avg Response Time: ${avgResponseTime.toFixed(2)} ms`)
+  );
+  console.log(
+    chalk.cyanBright(
+      `⏳ 95th Percentile Response Time: ${p95ResponseTime.toFixed(2)} ms`
+    )
+  );
   console.log(
     chalk.redBright(
       `🚨 Breached Thresholds: ${breachedThresholds.join(", ") || "None"}`
@@ -157,10 +177,19 @@ const payload = {
   status,
   color,
   totalRequests,
+  passedRequests,
   failedRequests,
+  passedChecks,
+  failedChecks,
   failureRate: (failureRate * 100).toFixed(2) + "%",
   iterations,
   vus,
+  minVUs,
+  maxVUs,
+  minResponseTime,
+  maxResponseTime,
+  avgResponseTime: avgResponseTime.toFixed(2),
+  p95ResponseTime: p95ResponseTime.toFixed(2), // Included in Payload
   breachedThresholds,
   htmlReportUrl: options.htmlReportUrl,
   gitPipelineUrl: options.ciPipelineUrl,

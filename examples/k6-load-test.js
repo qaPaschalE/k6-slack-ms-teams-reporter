@@ -11,7 +11,7 @@ export function handleSummary(data) {
   };
 }
 // Define custom failure rate metric
-export const failureRate = new Rate("http_req_failed");
+export const failureRate = new Rate("failure_rate");
 
 export const options = {
   stages: [
@@ -20,7 +20,7 @@ export const options = {
     { duration: "5s", target: 0 }, // Ramp down to 0 VUs in 5s
   ],
   thresholds: {
-    http_req_failed: ["rate<0.05"], // Fail rate should be < 5%
+    failure_rate: ["rate<0.05"], // Fail rate should be < 5%
     http_req_duration: ["p(95)<5000"], // 95% of requests should complete < 5s
   },
 };

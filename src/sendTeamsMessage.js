@@ -22,13 +22,18 @@ export function sendTeamsMessage(payload) {
     sections: [
       {
         activityTitle: "🚀 Load Test Summary",
+        activityImage:
+          "https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/k6%20logo.png?raw=true", // K6 logo
         facts: [
           { name: "Status", value: payload.status },
           { name: "Failure Rate", value: payload.failureRate },
-          { name: "Total Requests", value: payload.totalRequests },
-          { name: "Failed Requests", value: payload.failedRequests },
           { name: "Iterations", value: payload.iterations },
-          { name: "Max VUs", value: payload.vus },
+          { name: "Failed Requests", value: payload.failedRequests },
+          { name: "Passed Checks", value: payload.passedChecks },
+          { name: "Failed Checks", value: payload.failedChecks },
+          { name: "Min VUs", value: payload.minVUs },
+          { name: "Max VUs", value: payload.maxVUs },
+          { name: "95th Percentile", value: payload.p95ResponseTime },
           {
             name: "Threshold Breaches",
             value:

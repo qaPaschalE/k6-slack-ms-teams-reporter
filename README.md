@@ -38,7 +38,7 @@ Before using this package, ensure you have the following installed:
 ## **📦 Installation**
 
 ```sh
-npm install --save-dev @paschal_cheps/k6-slack-ms-teams-reporter
+npm install --save-dev k6-slack-ms-teams-reporter
 ```
 
 ---
@@ -98,9 +98,9 @@ npx k6-slack-ms-teams-reporter --target teams --report-name k6TestResults
 
 ## **🛠️ Custom Reporter Options**
 
-You can configure custom options via **reporterOptions.json**:
+You can configure custom options via **reportConfig.json**:
 
-Create a `reporterOptions.json` file in your project:
+Create a `reportConfig.json` file in your project:
 
 ```json
 {
@@ -113,13 +113,27 @@ Create a `reporterOptions.json` file in your project:
 }
 ```
 
+Users can also create a **reportConfig.js** file like this:
+
+```js
+export default {
+  reporter: "k6-slack-ms-teams-reporter",
+  target: "slack",
+  reportName: "k6TestResults",
+  verbose: false,
+  jsonReportPath: "examples/reports/k6TestResults.json",
+  htmlReportUrl: "http://127.0.0.1/examples/reports/k6TestResults.html",
+  ciPipelineUrl: "https://gitlab.com/myproject/-/jobs/",
+};
+```
+
 Then run the reporter:
 
 ```sh
 npx k6-slack-ms-teams-reporter
 ```
 
-The reporter will automatically pick up configurations from `reporterOptions.json`.
+The reporter will automatically pick up configurations from `reportConfig.json` or `reportConfig.js`.
 
 ---
 
@@ -127,78 +141,15 @@ The reporter will automatically pick up configurations from `reporterOptions.jso
 
 ### **📌 Slack Report**
 
-```json
-{
-  "text": "📊 Load Test Results",
-  "attachments": [
-    {
-      "color": "#FF0000",
-      "fields": [
-        { "title": "Failure Rate", "value": "12.5%", "short": true },
-        { "title": "Total Requests", "value": "400", "short": true },
-        { "title": "Failed Requests", "value": "50", "short": true },
-        { "title": "Iterations", "value": "20", "short": true },
-        { "title": "Max VUs", "value": "50", "short": true },
-        {
-          "title": "Threshold Breaches",
-          "value": "http_req_duration p(95)<5000ms ❌",
-          "short": false
-        }
-      ],
-      "actions": [
-        {
-          "type": "button",
-          "text": "📜 View Full Reports",
-          "url": "https://gitlab.com/myproject/-/jobs/",
-          "style": "primary"
-        }
-      ],
-      "footer": "⏱️ 2025-03-15 12:00 | Environment: Staging"
-    }
-  ]
-}
-```
-
----
+<table align="right"><tr><td align="right" width="9999">
+ <img src="assets/slack.png" alt="slack example" style="margin-top:25px;" align="right"/>
+</td></tr></table>
 
 ### **📌 Microsoft Teams Report**
 
-```json
-{
-  "@type": "MessageCard",
-  "@context": "http://schema.org/extensions",
-  "themeColor": "FF0000",
-  "summary": "K6 Load Test Results",
-  "sections": [
-    {
-      "activityTitle": "🚀 Load Test Summary",
-      "facts": [
-        { "name": "Failure Rate", "value": "12.5%" },
-        { "name": "Total Requests", "value": "400" },
-        { "name": "Failed Requests", "value": "50" },
-        { "name": "Iterations", "value": "20" },
-        { "name": "Max VUs", "value": "50" },
-        {
-          "name": "Threshold Breaches",
-          "value": "http_req_duration p(95)<5000ms ❌"
-        }
-      ]
-    }
-  ]
-}
-```
-
----
-
-## **🧪 Running Tests**
-
-Run unit tests using Mocha:
-
-```sh
-npx mocha test --recursive --exit
-```
-
----
+<table align="right"><tr><td align="right" width="9999">
+ <img src="assets/teams.jpeg" alt="teams example" style="margin-top:25px;" align="right"/>
+</td></tr></table>
 
 ## **📌 CI/CD Integration**
 

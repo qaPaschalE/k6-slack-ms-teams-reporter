@@ -3,10 +3,6 @@ name: Publish Package
 on:
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: k6-slack-ms-teams-reporter
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -22,7 +18,7 @@ jobs:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
-          cache-dependency-path: k6-slack-ms-teams-reporter/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: 📦 Install Dependencies
         run: npm install

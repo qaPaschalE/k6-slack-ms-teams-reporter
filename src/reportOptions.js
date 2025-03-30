@@ -1,5 +1,6 @@
 import "dotenv/config"; // Load environment variables
 import fs from "fs"; // Import file system module
+import path from "path"; // Import path module for file extension check
 
 // Default config
 let defaultConfig = {
@@ -8,14 +9,19 @@ let defaultConfig = {
   ciPipelineUrl: "https://your-ci-pipeline-url",
 };
 
-// Load custom config from `reportConfig.json` (if available)
+// Load custom config from `reportConfig.json` or `reportConfig.js` (if available)
 let userConfig = {};
 try {
-  if (fs.existsSync("./reportConfig.json")) {
-    userConfig = JSON.parse(fs.readFileSync("./reportConfig.json", "utf8"));
+  const configPath = "./reportConfig";
+  if (fs.existsSync(configPath + ".json")) {
+    userConfig = JSON.parse(fs.readFileSync(configPath + ".json", "utf8"));
+  } else if (fs.existsSync(configPath + ".js")) {
+    // Dynamically import the JS config
+    const jsConfig = await import(path.resolve(configPath + ".js"));
+    userConfig = jsConfig.default; // Access the default export
   }
 } catch (error) {
-  console.error("⚠️ Failed to load reportConfig.json:", error.message);
+  console.error("⚠️ Failed to load reportConfig:", error.message);
 }
 
 // Merge defaults with user-configurable options
