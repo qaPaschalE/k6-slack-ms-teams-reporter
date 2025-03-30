@@ -23,9 +23,6 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm install
 
-      - name: 🏗 Build Package
-        run: npm run build
-
       - name: 🔖 Extract Current Version
         run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 

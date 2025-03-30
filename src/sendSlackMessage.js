@@ -11,7 +11,7 @@ export function sendSlackMessage(payload) {
     console.error(
       chalk.red("❌ Slack Webhook URL is missing in environment variables.")
     );
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   const slackPayload = {
@@ -100,7 +100,7 @@ export function sendSlackMessage(payload) {
     console.error(
       chalk.red(`❌ Error sending Slack notification: ${err.message}`)
     );
-    process.exit(1);
+    process.exitCode = 1;
   });
 
   req.write(JSON.stringify(slackPayload));

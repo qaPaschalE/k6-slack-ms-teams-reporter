@@ -11,7 +11,7 @@ export function sendTeamsMessage(payload) {
     console.error(
       chalk.red("❌ Teams Webhook URL is missing in environment variables.")
     );
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   const teamsPayload = {
@@ -88,7 +88,7 @@ export function sendTeamsMessage(payload) {
     console.error(
       chalk.red(`❌ Error sending Teams notification: ${err.message}`)
     );
-    process.exit(1);
+    process.exitCode = 1;
   });
 
   req.write(JSON.stringify(teamsPayload));

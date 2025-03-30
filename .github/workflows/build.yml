@@ -25,9 +25,6 @@ jobs:
       - name: 📥 Install Dependencies
         run: npm install
 
-      - name: 🛠 Build Package
-        run: npm run build
-
       - name: ✅ Run Unit Tests
         run: npm test
 
