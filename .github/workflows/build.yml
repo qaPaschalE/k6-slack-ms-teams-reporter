@@ -6,21 +6,16 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-18:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
       - name: 🚀 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node.js
+      - name: 🔧 Setup Node.js 18.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
 
       - name: 📥 Install Dependencies
         run: npm install
@@ -28,8 +23,53 @@ jobs:
       - name: 📤 Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: k6-slack-ms-teams-reporter
+          name: k6-slack-ms-teams-reporter-18
           path: |
             dist
             reports
-          overwrite: true
+
+  build-20:
+    runs-on: ubuntu-latest
+    needs: build-18 # Runs AFTER build-18 completes
+    steps:
+      - name: 🚀 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: 📥 Install Dependencies
+        run: npm install
+
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-slack-ms-teams-reporter-20
+          path: |
+            dist
+            reports
+
+  build-22:
+    runs-on: ubuntu-latest
+    needs: build-20 # Runs AFTER build-20 completes
+    steps:
+      - name: 🚀 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: 📥 Install Dependencies
+        run: npm install
+
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-slack-ms-teams-reporter-22
+          path: |
+            dist
+            reports
