@@ -1,4 +1,4 @@
-name: Build K6 Slack & Teams Reporter
+name: Build
 
 on:
   push:
