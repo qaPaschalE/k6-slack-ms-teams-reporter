@@ -28,6 +28,16 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm install
 
+      - name: 🔖 Ensure Clean Git State
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "🔧 Auto-commit before version bump"
+            git push origin main
+          fi
+
       - name: 🔖 Bump Version
         run: |
           npm version ${{ github.event.inputs.version_type }} -m "🔖 Bump version to %s"
@@ -35,8 +45,6 @@ jobs:
 
       - name: 📤 Push Version Bump
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git push origin main --follow-tags
 
       - name: 📦 Publish to NPM
