@@ -15,48 +15,26 @@ jobs:
       - name: 🚀 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Ensures full commit history for tagging
 
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"
           cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: 📦 Install Dependencies
         run: npm install
 
-      - name: 🔖 Ensure Clean Git State
-        run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "🔧 Auto-commit before version bump"
-            git push origin main
-          fi
-
-      - name: 🔖 Bump Version
-        run: |
-          npm version ${{ github.event.inputs.version_type }} -m "🔖 Bump version to %s"
-          echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
-      - name: 📤 Push Version Bump
-        run: |
-          git push origin main --follow-tags
-
-      - name: 📦 Publish to NPM
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: 🔖 Extract Version from package.json
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: 🚀 Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
           tag_name: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
