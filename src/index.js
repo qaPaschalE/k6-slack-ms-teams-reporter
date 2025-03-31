@@ -169,6 +169,7 @@ const failureRate = results.metrics.http_req_failed?.values.rate || 0;
 const iterations = results.metrics.iterations?.values.count || 0;
 const vus = results.metrics.vus_max?.values.max || 0;
 const minVUs = results.metrics.vus?.values.min || 0;
+const maxVUs = results.metrics.vus?.values.max || 0;
 const passedChecks = results.metrics.checks?.values.passes || 0;
 const failedChecks = results.metrics.checks?.values.fails || 0;
 const minResponseTime = results.metrics.http_req_duration?.values.min || 0;
