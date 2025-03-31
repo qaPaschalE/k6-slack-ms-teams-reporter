@@ -4,12 +4,56 @@ import chalk from "chalk";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
 import { sendSlackMessage } from "./sendSlackMessage.js";
 import { sendTeamsMessage } from "./sendTeamsMessage.js";
 import reportOptions from "./reportOptions.js";
 
+const require = createRequire(import.meta.url);
+const packageJson = require("../package.json");
+
 // Load environment variables
 dotenv.config();
+
+// Help message
+const helpMessage = `
+${chalk.bold.greenBright(packageJson.name)} - v${chalk.yellowBright(
+  packageJson.version
+)}
+${chalk.cyanBright("Usage:")}
+  ${chalk.white(
+    "k6-slack-ms-teams-reporter --target <slack|teams> --report-name <name> [options]"
+  )}
+
+${chalk.cyanBright("Options:")}
+  ${chalk.white(
+    "--target <slack|teams>"
+  )}    Specify the reporting platform (Slack or Teams)
+  ${chalk.white("--report-name <name>")}      Name of the report to be sent
+  ${chalk.white("--verbose")}                 Enable debug logging
+  ${chalk.white("--help, -h")}                Show this help message
+  ${chalk.white("--version, -v")}             Display the tool version
+
+${chalk.cyanBright("Examples:")}
+  ${chalk.white(
+    "k6-slack-ms-teams-reporter --target slack --report-name performance-test"
+  )}
+  ${chalk.white(
+    "k6-slack-ms-teams-reporter --target teams --report-name api-load-test --verbose"
+  )}
+`;
+
+// Check for `--version` or `-v`
+if (process.argv.includes("-v") || process.argv.includes("--version")) {
+  console.log(`${packageJson.name} version: ${packageJson.version}`);
+  process.exit(0);
+}
+
+// Check for `--help` or `-h`
+if (process.argv.includes("-h") || process.argv.includes("--help")) {
+  console.log(helpMessage);
+  process.exit(0);
+}
 
 // Load reporter config (supporting both `.json` and `.js`)
 let config = {};
@@ -119,20 +163,19 @@ const results = JSON.parse(fs.readFileSync(options.jsonReportPath, "utf8"));
 
 // Extract key metrics
 const totalRequests = results.metrics.http_reqs?.values.count || 0;
-const failedRequests = results.metrics.http_req_failed?.values.passes || 0; // Fixed Failed Requests Calculation
-const passedRequests = totalRequests - failedRequests; // Dynamically calculated Passed Requests
+const failedRequests = results.metrics.http_req_failed?.values.passes || 0;
+const passedRequests = totalRequests - failedRequests;
 const failureRate = results.metrics.http_req_failed?.values.rate || 0;
 const iterations = results.metrics.iterations?.values.count || 0;
 const vus = results.metrics.vus_max?.values.max || 0;
-const maxVUs = results.metrics.vus?.values.max || 0;
 const minVUs = results.metrics.vus?.values.min || 0;
 const passedChecks = results.metrics.checks?.values.passes || 0;
 const failedChecks = results.metrics.checks?.values.fails || 0;
-// Extract Response Time Metrics
 const minResponseTime = results.metrics.http_req_duration?.values.min || 0;
 const maxResponseTime = results.metrics.http_req_duration?.values.max || 0;
 const avgResponseTime = results.metrics.http_req_duration?.values.avg || 0;
-const p95ResponseTime = results.metrics.http_req_duration?.values["p(95)"] || 0; // Added 95th Percentile Response Time
+const p95ResponseTime = results.metrics.http_req_duration?.values["p(95)"] || 0;
+
 // Extract threshold breaches
 const thresholds = results.metrics.http_req_duration?.thresholds || {};
 const breachedThresholds = Object.entries(thresholds)
@@ -183,24 +226,18 @@ const payload = {
   failedChecks,
   failureRate: (failureRate * 100).toFixed(2) + "%",
   iterations,
-  vus,
   minVUs,
   maxVUs,
   minResponseTime,
   maxResponseTime,
   avgResponseTime: avgResponseTime.toFixed(2),
-  p95ResponseTime: p95ResponseTime.toFixed(2), // Included in Payload
+  p95ResponseTime: p95ResponseTime.toFixed(2),
   breachedThresholds,
   htmlReportUrl: options.htmlReportUrl,
   gitPipelineUrl: options.ciPipelineUrl,
 };
 
-// Send report to the selected target
-if (options.target === "slack") {
-  sendSlackMessage(payload);
-} else if (options.target === "teams") {
-  sendTeamsMessage(payload);
-} else {
-  console.error(chalk.red(`❌ Unknown target: ${options.target}`));
-  process.exit(1);
-}
+// Send report
+options.target === "slack"
+  ? sendSlackMessage(payload)
+  : sendTeamsMessage(payload);
