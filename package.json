@@ -1,6 +1,6 @@
 {
   "name": "k6-slack-ms-teams-reporter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A K6 test results reporter that sends HTML reports as attachments to Slack and Microsoft Teams",
   "main": "src/index.js",
   "bin": {
