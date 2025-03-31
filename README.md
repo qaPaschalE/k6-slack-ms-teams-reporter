@@ -137,11 +137,11 @@ The reporter will automatically pick up configurations from `reportConfig.json` 
 
 ### **📌 Slack Report**
 
-<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/Slack.png?raw=true" alt="teams example" style="max-width:300px;  margin-top:15px;"/>
+<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/Slack.png?raw=true" alt="teams example" style="max-width:100px;  margin-top:7px;"/>
 
 ### **📌 Microsoft Teams Report**
 
-<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/teams.jpeg?raw=true" alt="teams example" style="max-width:300px;  margin-top:15px;"/>
+<img src="https://github.com/qaPaschalE/k6-slack-ms-teams-reporter/blob/main/assets/teams.jpeg?raw=true" alt="teams example" style="max-width:150px;  margin-top:10px;"/>
 
 ## **📌 CI/CD Integration**
 
