@@ -2,6 +2,11 @@ name: Publish Package
 
 on:
   workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Version bump type (patch, minor, major)"
+        required: true
+        default: "patch"
 
 jobs:
   publish:
@@ -23,8 +28,16 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm install
 
-      - name: 🔖 Extract Current Version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      - name: 🔖 Bump Version
+        run: |
+          npm version ${{ github.event.inputs.version_type }} -m "🔖 Bump version to %s"
+          echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: 📤 Push Version Bump
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git push origin main --follow-tags
 
       - name: 📦 Publish to NPM
         run: npm publish --access public
